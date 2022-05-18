@@ -31,7 +31,12 @@ namespace Lesson4
             Program p = new Program();
             using (var context = p.CreateDbContext(null))
             {
+                Console.WriteLine("Process migration");
                 context.Database.Migrate();
+                Console.WriteLine("End migration");
+                Console.WriteLine("Process initialization");
+                DbInitializer.Initialize(context);
+                Console.WriteLine("End initialization");
             }
         }
     }

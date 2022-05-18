@@ -9,7 +9,7 @@
         /// Идентификатор
         /// </summary>
         public int AnnouncementId { get; set; }
-        
+
         /// <summary>
         /// Заголовок
         /// </summary>
@@ -18,7 +18,9 @@
         /// <summary>
         /// Тип объявления
         /// </summary>
-        public TypeAnnouncement Type { get; set; }
+        public TypeAnnouncement TypeAnnouncement { get; set; }
+
+        public int TypeAnnouncementId {get; set;}
 
         public int PersonId { get; set; }
         /// <summary>

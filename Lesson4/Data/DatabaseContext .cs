@@ -5,10 +5,6 @@ namespace Lesson4.Data
 {
     public class DatabaseContext : DbContext
     {
-        /*public DatabaseContext() 
-        { 
-        }*/
-
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
@@ -21,7 +17,6 @@ namespace Lesson4.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Person>();
             modelBuilder.Entity<Announcement>();
             modelBuilder.Entity<Product>();

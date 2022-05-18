@@ -1,6 +1,4 @@
-﻿using Lesson4.Enum;
-
-namespace Lesson4.Models
+﻿namespace Lesson4.Models
 {
     /// <summary>
     /// Модель тип объявления
@@ -15,6 +13,6 @@ namespace Lesson4.Models
         /// <summary>
         /// Тип объявления
         /// </summary>
-        public EnumTypeAnnouncement Type { get; set; }
+        public TypeAnnouncementEnum Type { get; set; }
     }
 }

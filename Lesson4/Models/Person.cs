@@ -23,7 +23,7 @@ namespace Lesson4.Models
         /// Фамилия
         /// </summary>
         [StringLength(maximumLength: 100)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// Email
@@ -36,7 +36,7 @@ namespace Lesson4.Models
         /// Телефон
         /// </summary>
         [Required]
-        [StringLength(maximumLength: 12)]
+        [StringLength(maximumLength: 20)]
         public string PhoneNumber { get; set; }
 
         public List<Announcement> Announcements { get; set; }

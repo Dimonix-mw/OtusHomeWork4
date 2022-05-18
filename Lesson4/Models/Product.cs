@@ -1,5 +1,4 @@
-﻿using Lesson4.Enum;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Lesson4.Models
 {
@@ -31,12 +30,15 @@ namespace Lesson4.Models
         /// </summary>
         public string? Description { get; set; }
 
+       
+        public TypeProduct TypeProduct { get; set; }
+
         /// <summary>
         /// Тип товара
         /// </summary>
         [Required]
-        public TypeProduct TypeProduct { get; set; }
-        
+        public int TypeProductId { get; set; }
 
-    }
+
+    } 
 }

@@ -1,6 +1,4 @@
-﻿using Lesson4.Enum;
-
-namespace Lesson4.Models
+﻿namespace Lesson4.Models
 {
     /// <summary>
     /// Модель тип товара
@@ -15,7 +13,7 @@ namespace Lesson4.Models
         /// <summary>
         /// Тип товара
         /// </summary>
-        public EnumTypeProduct Type { get; set; }
+        public TypeProductEnum Type { get; set; }
 
     }
 }
