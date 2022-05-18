@@ -40,6 +40,9 @@ namespace Lesson4.Models
         public string PhoneNumber { get; set; }
 
         public List<Announcement> Announcements { get; set; }
-
+        public override string ToString()
+        {
+            return $"PersonId = {PersonId}, FirstName = {FirstName} , LastName = {LastName ?? "no info"}, Email = {Email}, PhoneNumber = {PhoneNumber};";
+        }
     }
 }

@@ -14,6 +14,9 @@
         /// Тип товара
         /// </summary>
         public TypeProductEnum Type { get; set; }
-
+        public override string ToString()
+        {
+            return $"TypeProductId = {TypeProductId}, Type = {Type};";
+        }
     }
 }

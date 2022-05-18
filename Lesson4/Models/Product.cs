@@ -30,7 +30,6 @@ namespace Lesson4.Models
         /// </summary>
         public string? Description { get; set; }
 
-       
         public TypeProduct TypeProduct { get; set; }
 
         /// <summary>
@@ -39,6 +38,9 @@ namespace Lesson4.Models
         [Required]
         public int TypeProductId { get; set; }
 
-
+        public override string ToString()
+        {
+            return $"ProductId = {ProductId}, Name = {Name} , Price = {Price}, Description = {Description ?? "no description"}, TypeProduct = {TypeProduct};";
+        }
     } 
 }

@@ -33,7 +33,10 @@
         /// Товар
         /// </summary>
         public Product Product { get; set; }
-
+        public override string ToString()
+        {
+            return $"AnnouncementId = {AnnouncementId}, Title = {Title} , TypeAnnouncementId = {TypeAnnouncementId}, PersonId = {PersonId}, ProductId = {ProductId};";
+        }
 
     }
 }

@@ -14,5 +14,9 @@
         /// Тип объявления
         /// </summary>
         public TypeAnnouncementEnum Type { get; set; }
+        public override string ToString()
+        {
+            return $"TypeAnnouncementId = {TypeAnnouncementId}, Type = {Type};";
+        }
     }
 }
