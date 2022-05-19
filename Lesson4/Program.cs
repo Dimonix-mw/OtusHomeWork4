@@ -33,33 +33,87 @@ namespace Lesson4
             Program p = new Program();
             using (var context = p.CreateDbContext(null))
             {
-                //StartMigration(context);
-                //StartInitialize(context);
-
-                WriteConsoleTablesData(context);
+                Console.WriteLine("Process migration");
+                context.Database.Migrate();
+                Console.WriteLine("End migration");
+                PrintConsoleSeparator();
+                Console.WriteLine("Process initialization");
+                DbInitializer.Initialize(context);
+                Console.WriteLine("End initialization");
             }
 
-            Console.ReadLine();
+            WriteConcoleMenu();
+            while (true)
+            {
+                string answer = Console.ReadLine();
+                if (answer == "1")
+                {
+                    using (var context = p.CreateDbContext(null))
+                    {
+                        WriteConsoleTablesData(context);
+                    }
+                    WriteConcoleMenu();
+                }
+                else if (answer == "2")
+                {
+                    Console.WriteLine("Add person:");
+                    Console.Write("Enter first name: ");
+                    string firstName = Console.ReadLine();
+                    Console.Write("Enter last name: ");
+                    string lastName = Console.ReadLine();
+                    Console.Write("Enter email: ");
+                    string email = Console.ReadLine();
+                    Console.Write("Enter phone number: ");
+                    string phoneNumber = Console.ReadLine();
+
+                    if (firstName != null && email != null && phoneNumber != null)
+                    {
+                        using (var context = p.CreateDbContext(null))
+                        {
+                            Person person = new Person()
+                            {
+                                FirstName = firstName,
+                                LastName = lastName,
+                                Email = email,
+                                PhoneNumber = phoneNumber
+                            };
+                            context.Persons.Add(person);
+                            context.SaveChanges();
+                            Console.WriteLine("Add person complite.");
+                        }
+                    } else
+                    {
+                        Console.WriteLine("The data did not pass verification try again!");
+                    }
+                    WriteConcoleMenu();
+                }
+                else if (answer == "3")
+                {
+                    break;
+                } else
+                {
+                    Console.WriteLine("Unknown command");
+                    WriteConcoleMenu();
+                }
+            }
         }
 
-        static void StartMigration(DatabaseContext context)
+        static void WriteConcoleMenu()
         {
-            Console.WriteLine("Process migration");
-            context.Database.Migrate();
-            Console.WriteLine("End migration");
-        }
-
-        static void StartInitialize(DatabaseContext context)
-        {
-            Console.WriteLine("Process initialization");
-            DbInitializer.Initialize(context);
-            Console.WriteLine("End initialization");
+            PrintConsoleSeparator();
+            Console.WriteLine("Menu:");
+            PrintConsoleSeparator();
+            Console.WriteLine("To output table data, enter 1");
+            Console.WriteLine("To add data to a table Person, enter 2");
+            Console.WriteLine("To exit, enter 3");
+            PrintConsoleSeparator();
+            Console.Write("Your choice: ");
         }
 
         static void WriteConsoleTablesData(DatabaseContext context)
         {
             Console.WriteLine("ALL Data tables:");
-            Console.WriteLine(new string('-', 20));
+            PrintConsoleSeparator();
 
             Console.WriteLine("Table TypeProduct:");
             WriteConsoleTableData(context.TypeProducts.ToList());
@@ -75,11 +129,16 @@ namespace Lesson4
 
         static void WriteConsoleTableData<T>(List<T> dataTable)
         {
-            Console.WriteLine(new string('-', 20));
+            PrintConsoleSeparator();
             foreach (var item in dataTable)
             {
                 Console.WriteLine(item);
             }
+            PrintConsoleSeparator();
+        }
+
+        static void PrintConsoleSeparator()
+        {
             Console.WriteLine(new string('-', 20));
         }
     }
