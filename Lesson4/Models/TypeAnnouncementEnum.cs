@@ -5,8 +5,8 @@
     /// </summary>
     public enum TypeAnnouncementEnum
     {
-        sale,
-        purchase,
-        rent
+        Sale,
+        Purchase,
+        Rent
     }
 }

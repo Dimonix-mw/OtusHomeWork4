@@ -1,54 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Lesson4.Data;
-using Microsoft.EntityFrameworkCore.Design;
 using Lesson4.Models;
-using System.Collections.Generic;
 
 namespace Lesson4
 {
-    class Program : IDesignTimeDbContextFactory<DatabaseContext>
+    class Program
     {
-        public DatabaseContext CreateDbContext(string[] args)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-
-            var configuration = builder.Build();
-            var connectionString = configuration.GetConnectionString(name: "DefaultConnection");
-            if (connectionString == null)
-            {
-                throw new Exception("Connection string is null");
-            }
-
-            var optionBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            optionBuilder.UseNpgsql(connectionString);
-
-            return new DatabaseContext(optionBuilder.Options);
-        }
 
         static void Main(string[] args)
         {
-            Program p = new Program();
-            using (var context = p.CreateDbContext(null))
+            var optionBuilder = GetContextOptionsBuilder();
+            using (var context = new DatabaseContext(optionBuilder.Options))
             {
-                Console.WriteLine("Process migration");
-                context.Database.Migrate();
-                Console.WriteLine("End migration");
+                StartMigration(context);
                 PrintConsoleSeparator();
-                Console.WriteLine("Process initialization");
-                DbInitializer.Initialize(context);
-                Console.WriteLine("End initialization");
+                StartInitializationDB(context);
             }
 
             WriteConcoleMenu();
+
             while (true)
             {
                 string answer = Console.ReadLine();
                 if (answer == "1")
                 {
-                    using (var context = p.CreateDbContext(null))
+                    using (var context = new DatabaseContext(optionBuilder.Options))
                     {
                         WriteConsoleTablesData(context);
                     }
@@ -68,7 +45,7 @@ namespace Lesson4
 
                     if (firstName != null && email != null && phoneNumber != null)
                     {
-                        using (var context = p.CreateDbContext(null))
+                        using (var context = new DatabaseContext(optionBuilder.Options))
                         {
                             Person person = new Person()
                             {
@@ -77,9 +54,7 @@ namespace Lesson4
                                 Email = email,
                                 PhoneNumber = phoneNumber
                             };
-                            context.Persons.Add(person);
-                            context.SaveChanges();
-                            Console.WriteLine("Add person complite.");
+                            AddPerson(context, person);
                         }
                     } else
                     {
@@ -96,6 +71,45 @@ namespace Lesson4
                     WriteConcoleMenu();
                 }
             }
+        }
+
+        static DbContextOptionsBuilder<DatabaseContext> GetContextOptionsBuilder()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+            var connectionString = configuration.GetConnectionString(name: "DefaultConnection");
+            if (connectionString == null)
+            {
+                throw new Exception("Connection string is null");
+            }
+
+            var optionBuilder = new DbContextOptionsBuilder<DatabaseContext>();
+            optionBuilder.UseNpgsql(connectionString);
+            return optionBuilder;
+        }
+
+        static void StartMigration(DatabaseContext context)
+        {
+            Console.WriteLine("Process migration");
+            context.Database.Migrate();
+            Console.WriteLine("End migration");
+        }
+
+        static void StartInitializationDB(DatabaseContext context)
+        {
+            Console.WriteLine("Process initialization");
+            DbInitializer.Initialize(context);
+            Console.WriteLine("End initialization");
+        }
+
+        static void AddPerson(DatabaseContext context, Person person)
+        {
+            context.Persons.Add(person);
+            context.SaveChanges();
+            Console.WriteLine("Add person complite.");
         }
 
         static void WriteConcoleMenu()

@@ -5,8 +5,8 @@
     /// </summary>
     public enum TypeProductEnum
     {
-        flat,
-        house,
-        car
+        Flat,
+        House,
+        Car
     }
 }
