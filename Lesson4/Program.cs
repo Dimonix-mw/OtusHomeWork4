@@ -11,13 +11,11 @@ namespace Lesson4
         static void Main(string[] args)
         {
             var optionBuilder = GetContextOptionsBuilder();
-            using (var context = new DatabaseContext(optionBuilder.Options))
-            {
-                StartMigration(context);
-                PrintConsoleSeparator();
-                StartInitializationDB(context);
-            }
-
+            using var context = new DatabaseContext(optionBuilder.Options);
+            
+            StartMigration(context);
+            PrintConsoleSeparator();
+            StartInitializationDB(context);
             WriteConcoleMenu();
 
             while (true)
@@ -25,10 +23,7 @@ namespace Lesson4
                 string answer = Console.ReadLine();
                 if (answer == "1")
                 {
-                    using (var context = new DatabaseContext(optionBuilder.Options))
-                    {
-                        WriteConsoleTablesData(context);
-                    }
+                    WriteConsoleTablesData(context);
                     WriteConcoleMenu();
                 }
                 else if (answer == "2")
@@ -45,17 +40,14 @@ namespace Lesson4
 
                     if (firstName != null && email != null && phoneNumber != null)
                     {
-                        using (var context = new DatabaseContext(optionBuilder.Options))
+                        Person person = new Person()
                         {
-                            Person person = new Person()
-                            {
-                                FirstName = firstName,
-                                LastName = lastName,
-                                Email = email,
-                                PhoneNumber = phoneNumber
-                            };
-                            AddPerson(context, person);
-                        }
+                            FirstName = firstName,
+                            LastName = lastName,
+                            Email = email,
+                            PhoneNumber = phoneNumber
+                        };
+                        AddPerson(context, person);
                     } else
                     {
                         Console.WriteLine("The data did not pass verification try again!");
